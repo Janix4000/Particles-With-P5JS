@@ -2,8 +2,9 @@ class FlockingBehaviors {
 
     constructor() {
         this.perceptionRadius = 30;
-        this.alignmentFactor = 1.0;
+        this.alignmentFactor = 5;
         this.cohesionFactor = 1.0;
+        this.separationFactor = 100.0;
     }
 
     applyBehaviors(boids, qTree) {
@@ -13,6 +14,7 @@ class FlockingBehaviors {
 
             force.add(this._getAlignment(boid, visibleBoids));
             force.add(this._getCohesion(boid, visibleBoids));
+            force.add(this._getSeparation(boid, visibleBoids));
 
 
             boid.applyForce(force);
@@ -61,5 +63,26 @@ class FlockingBehaviors {
         }
         let sumPos = boids.reduce((acc, val) => acc.add(val.pos), createVector(0, 0));
         return p5.Vector.div(sumPos, boids.length);
+    }
+
+    _getSeparation(boid, visibleBoids) {
+        const escape = this._getEscapeFromBoids(visibleBoids, boid);
+        let desire = escape.copy();
+        //p5.Vector.sub(escape, boid.vel);
+        desire.limit(10);
+        desire.mult(this.separationFactor);
+        return desire;
+    }
+
+    _getEscapeFromBoids(visibleBoids, boid) {
+        let escape = createVector();
+        for (const b of visibleBoids) {
+            let distSq = sq(b.pos.x - boid.pos.x) + sq(b.pos.y - boid.pos.y);
+            let dist = p5.Vector.sub(boid.pos, b.pos);
+            dist.div(distSq);
+            escape.add(dist);
+        }
+
+        return escape;
     }
 }

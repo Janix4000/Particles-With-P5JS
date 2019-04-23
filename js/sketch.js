@@ -14,7 +14,7 @@ function draw() {
 
     const dt = (millis() - lastTime) / 1000.0;
 
-    boidsSystem.updateBoids(dt * 3);
+    boidsSystem.updateBoids(dt * 5);
     boidsSystem.drawBoids();
     boidsSystem.drawBoidsVectors();
     lastTime = millis();
