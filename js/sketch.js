@@ -2,6 +2,14 @@ let boids = [];
 
 let qTree;
 
+function resetQTree() {
+    qTree.clear();
+    for (const b of boids) {
+        const point = new Point(b.pos.x, b.pos.y, b);
+    }
+}
+
+
 function setup() {
     createCanvas(600, 400);
     for (let i = 0; i < 100; i++) {
@@ -13,5 +21,5 @@ function setup() {
 
 function draw() {
     background(0);
-
+    resetQTree();
 }
