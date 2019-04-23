@@ -1,7 +1,8 @@
 class Boid {
     constructor(pos) {
         this.pos = pos.copy();
-        this.vel = createVector(random(-10, 10), random(-10, 10));
+        const startingSpeed = 20;
+        this.vel = p5.Vector.mult(p5.Vector.random2D(), startingSpeed);
         this.acc = createVector();
     }
 
