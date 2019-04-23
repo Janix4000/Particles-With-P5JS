@@ -8,7 +8,12 @@ class BoidsSystem {
         this.qTree = new QuadTree(region, 4, 16);
         this.region = region;
 
-        this.behaviors = new FlockingBehaviors();
+        this.flockingBehaviors = new FlockingBehaviors();
+        this.mouseBehavior = new EscapePointBehaviors();
+        this.textBehaviors = new TextBehaviors();
+
+        this.textBehaviors.setText("Konstytucja");
+        this.hasConstSpeed = true;
     }
 
     _resetQTree() {
@@ -32,10 +37,25 @@ class BoidsSystem {
         }
     }
 
+    _applyBehaviors() {
+        if (keyIsPressed) {
+            this.textBehaviors.applyBehaviors(this.boids);
+            this.hasConstSpeed = false;
+        } else {
+            this.flockingBehaviors.applyBehaviors(this.boids, this.qTree);
+            this.hasConstSpeed = true;
+        }
+        if (mouseIsPressed) {
+            let mousePos = createVector(mouseX, mouseY);
+            this.mouseBehavior.applyBehaviors(this.boids, mousePos);
+        }
+    }
+
     updateBoids(dt) {
-        this.behaviors.applyBehaviors(this.boids, this.qTree);
+        this._applyBehaviors();
         for (const boid of this.boids) {
-            boid.update(dt);
+            let constSpeed = this.hasConstSpeed ? 25 : undefined;
+            boid.update(dt, constSpeed);
             this._edge(boid);
         }
         this._resetQTree();

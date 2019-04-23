@@ -1,5 +1,5 @@
 let boidsSystem;
-const nBoids = 1000;
+const nBoids = 750;
 
 let sepSlider, cohSlider, algSlider;
 
@@ -11,6 +11,23 @@ function setup() {
     algSlider = createSlider(0, 10, 1, 0.1);
     cohSlider = createSlider(0, 10, 1, 0.1);
     sepSlider = createSlider(0, 100, 1, 0.1);
+
+    update();
+}
+
+let paused = false;
+
+function update() {
+    if (paused) {
+        return;
+    }
+    const dt = (millis() - lastTime) / 1000.0;
+
+    boidsSystem.updateBoids(dt * 4);
+
+    lastTime = millis();
+
+    setTimeout(update, 1);
 }
 
 let lastTime = 0.0;
@@ -18,17 +35,15 @@ let lastTime = 0.0;
 function draw() {
     background(0);
 
-    let beh = boidsSystem.behaviors;
+    let beh = boidsSystem.flockingBehaviors;
     beh.alignmentFactor = algSlider.value();
     beh.cohesionFactor = cohSlider.value();
     beh.separationFactor = sepSlider.value();
 
-    const dt = (millis() - lastTime) / 1000.0;
 
-    boidsSystem.updateBoids(dt * 2);
+
     boidsSystem.drawBoids();
     //boidsSystem.drawBoidsVectors();
-    lastTime = millis();
 
     textSize(20);
     fill(255, 0, 255);

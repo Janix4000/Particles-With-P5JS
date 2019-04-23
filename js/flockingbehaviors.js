@@ -16,7 +16,6 @@ class FlockingBehaviors {
             force.add(this._getCohesion(boid, visibleBoids));
             force.add(this._getSeparation(boid, visibleBoids));
 
-
             boid.applyForce(force);
         }
     }

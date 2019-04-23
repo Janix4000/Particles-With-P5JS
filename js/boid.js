@@ -1,17 +1,18 @@
 class Boid {
     constructor(pos) {
         this.pos = pos.copy();
-        const startingSpeed = 25;
-        this.vel = p5.Vector.mult(p5.Vector.random2D(), startingSpeed);
+        this.vel = p5.Vector.random2D();
         this.acc = createVector();
         this.oldAcc = createVector();
 
         this.constSpeed = 25.0;
     }
 
-    update(dt) {
+    update(dt, constSpeed) {
         this.vel.add(p5.Vector.mult(this.acc, dt));
-        this.vel.setMag(this.constSpeed);
+        if (constSpeed) {
+            this.vel.setMag(constSpeed);
+        }
         this.pos.add(p5.Vector.mult(this.vel, dt));
         this.oldAcc = this.acc.copy();
         this.acc.mult(0);
