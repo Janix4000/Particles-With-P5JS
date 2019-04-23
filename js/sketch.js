@@ -1,5 +1,5 @@
 let boidsSystem;
-const nBoids = 200;
+const nBoids = 1000;
 
 function setup() {
     createCanvas(600, 400);
@@ -14,8 +14,12 @@ function draw() {
 
     const dt = (millis() - lastTime) / 1000.0;
 
-    boidsSystem.updateBoids(dt * 5);
+    boidsSystem.updateBoids(dt * 2);
     boidsSystem.drawBoids();
-    boidsSystem.drawBoidsVectors();
+    //boidsSystem.drawBoidsVectors();
     lastTime = millis();
+
+    textSize(20);
+    fill(255, 0, 255);
+    text(floor(frameRate()), 10, 20);
 }

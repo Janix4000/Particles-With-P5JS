@@ -23,7 +23,7 @@ class BoidsSystem {
         for (const boid of this.boids) {
             boid.render();
         }
-        renderQuadTree(this.qTree);
+        //renderQuadTree(this.qTree);
     }
 
     drawBoidsVectors() {

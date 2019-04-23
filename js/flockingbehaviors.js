@@ -1,10 +1,10 @@
 class FlockingBehaviors {
 
     constructor() {
-        this.perceptionRadius = 30;
-        this.alignmentFactor = 5;
-        this.cohesionFactor = 1.0;
-        this.separationFactor = 100.0;
+        this.perceptionRadius = 20;
+        this.alignmentFactor = 3;
+        this.cohesionFactor = 0.05;
+        this.separationFactor = 10.0;
     }
 
     applyBehaviors(boids, qTree) {
