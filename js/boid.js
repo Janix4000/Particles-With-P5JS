@@ -15,4 +15,8 @@ class Boid {
         fill(255);
         ellipse(this.pos.x, this.pos.y, 5);
     }
+
+    applyForce(force) {
+        this.acc.add(force);
+    }
 }
