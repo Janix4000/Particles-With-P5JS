@@ -7,12 +7,15 @@ class BoidsSystem {
         }
         this.qTree = new QuadTree(region, 4, 16);
         this.region = region;
+
+        this.behaviors = new FlockingBehaviors();
     }
 
     _resetQTree() {
         this.qTree.clear();
         for (const b of this.boids) {
             const point = new Point(b.pos.x, b.pos.y, b);
+            this.qTree.insert(point);
         }
     }
 
@@ -20,9 +23,17 @@ class BoidsSystem {
         for (const boid of this.boids) {
             boid.render();
         }
+        renderQuadTree(this.qTree);
+    }
+
+    drawBoidsVectors() {
+        for (const boid of this.boids) {
+            boid.renderVectors();
+        }
     }
 
     updateBoids(dt) {
+        this.behaviors.applyBehaviors(this.boids, this.qTree);
         for (const boid of this.boids) {
             boid.update(dt);
             this._edge(boid);
